@@ -54,6 +54,7 @@ const loadDogBreeds = async () => {
         const breedLi = document.createElement('li');
         breedLi.textContent = breed;
         breedListContainer.append(breedLi);
+        breedLi.addEventListener('click', changeTextColor);
       }
     }
   } catch (error) {
@@ -63,3 +64,7 @@ const loadDogBreeds = async () => {
   }
 };
 loadDogBreeds();
+
+const changeTextColor = (event) => {
+  event.target.classList.toggle('selected');
+};
