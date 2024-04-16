@@ -1,3 +1,4 @@
+const breedDropdown = document.getElementById('breed-dropdown');
 const breedUrl = 'https://dog.ceo/api/breeds/list/all';
 const breedListContainer = document.getElementById('dog-breeds');
 const imgUrl = 'https://dog.ceo/api/breeds/image/random/4';
@@ -37,7 +38,7 @@ fetch(imgUrl)
   });
 
 // Fetch 2: Get breed list using async/await
-const loadDogBreeds = async () => {
+(loadDogBreeds = async () => {
   try {
     const response = await fetch(breedUrl);
     if (!response.ok) {
@@ -62,9 +63,28 @@ const loadDogBreeds = async () => {
     breedListContainer.textContent =
       'Error loading breed list, please refresh.';
   }
-};
-loadDogBreeds();
+})();
 
 const changeTextColor = (event) => {
   event.target.classList.toggle('selected');
 };
+
+const filterBreeds = (letter) => {
+  const breedListItems = breedListContainer.querySelectorAll('li');
+  if (letter === 'all') {
+    breedListItems.forEach((item) => {
+      item.style.display = 'list-item';
+    });
+    return;
+  }
+  breedListItems.forEach((item) => {
+    const breedName = item.textContent.toLowerCase();
+    const shouldShow = breedName.startsWith(letter);
+    item.style.display = shouldShow ? 'list-item' : 'none';
+  });
+};
+
+breedDropdown.addEventListener('change', () => {
+  const selectedLetter = breedDropdown.value;
+  filterBreeds(selectedLetter);
+});
